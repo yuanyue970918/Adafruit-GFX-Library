@@ -1412,6 +1412,40 @@ void Adafruit_GFX::Pentagram(int16_t x0, int16_t y0, int16_t r, uint16_t color)
 }
 
 
+void Adafruit_GFX::drawEllipse(int16_t x0, int16_t y0, int16_t a, int16_t b,uint16_t color) {
+	int16_t f = 1 - a;
+	int16_t ddF_x = 1;
+	int16_t ddF_y = -2 * a;
+	int16_t x = 0;
+	int16_t y = a;
+
+	startWrite();
+	writePixel(x0, y0 + a, color);
+	writePixel(x0, y0 - a, color);
+	writePixel(x0 + b, y0, color);
+	writePixel(x0 - b, y0, color);
+
+	while (x<y) {
+		if (f >= 0) {
+			y--;
+			ddF_y += 2;
+			f += ddF_y;
+		}
+		x++;
+		ddF_x += 2;
+		f += ddF_x;
+
+		writePixel(x0 + x, y0 + y, color);
+		writePixel(x0 - x, y0 + y, color);
+		writePixel(x0 + x, y0 - y, color);
+		writePixel(x0 - x, y0 - y, color);
+		writePixel(x0 + y, y0 + x, color);
+		writePixel(x0 - y, y0 + x, color);
+		writePixel(x0 + y, y0 - x, color);
+		writePixel(x0 - y, y0 - x, color);
+	}
+	endWrite();
+}
 
 
 
